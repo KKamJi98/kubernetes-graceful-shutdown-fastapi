@@ -1,0 +1,16 @@
+[tool.poetry]
+name = "kubernetes-graceful-shutdown-fastapi"
+version = "0.1.0"
+description = "kubernetes graceful shutdown example"
+authors = ["KKamJi <xowl5460@naver.com>"]
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.13"
+uvicorn = "^0.34.0"
+fastapi = "^0.115.6"
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"

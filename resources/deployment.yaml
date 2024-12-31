@@ -1,0 +1,39 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: fastapi-graceful
+  namespace: kkamji
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: fastapi-graceful
+  template:
+    metadata:
+      labels:
+        app: fastapi-graceful
+    spec:
+      imagePullSecrets:
+      - name: harbor-registry
+      terminationGracePeriodSeconds: 60
+      containers:
+      - name: fastapi
+        image: harbor.kkamji.net/kkamji/graceful-shutdown
+        ports:
+        - containerPort: 8000
+        lifecycle:
+          preStop:
+            exec:
+              command: ["sh", "-c", "echo 'Running preStop hook'; sleep 30"]
+        readinessProbe:
+          httpGet:
+            path: /
+            port: 8000
+          initialDelaySeconds: 3
+          periodSeconds: 5
+        livenessProbe:
+          httpGet:
+            path: /
+            port: 8000
+          initialDelaySeconds: 3
+          periodSeconds: 5
